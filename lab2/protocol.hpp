@@ -28,7 +28,7 @@ struct Message {
 inline bool write_all(int fd, const void* buf, std::size_t n) {
     const uint8_t* p = static_cast<const uint8_t*>(buf);
     while (n > 0) {
-        ssize_t w = ::send(fd, p, n, 0);
+        ssize_t w = send(fd, p, n, 0);
         if (w < 0) {
             if (errno == EINTR) continue;
             return false;
@@ -43,7 +43,7 @@ inline bool write_all(int fd, const void* buf, std::size_t n) {
 inline bool read_all(int fd, void* buf, std::size_t n) {
     uint8_t* p = static_cast<uint8_t*>(buf);
     while (n > 0) {
-        ssize_t r = ::recv(fd, p, n, 0);
+        ssize_t r = recv(fd, p, n, 0);
         if (r < 0) {
             if (errno == EINTR) continue;
             return false;
