@@ -113,24 +113,6 @@ int main(int argc, char** argv) {
             st.sock_fd.store(fd);
         }
 
-        fd_set rfds;
-        FD_ZERO(&rfds);
-        FD_SET(STDIN_FILENO, &rfds);
-        timeval tv{};
-        tv.tv_sec = 0;
-        tv.tv_usec = 200 * 1000;
-
-        int rc = ::select(STDIN_FILENO + 1, &rfds, nullptr, nullptr, &tv);
-        if (rc < 0) {
-            if (errno == EINTR) continue;
-            std::perror("select");
-            st.stop.store(true);
-            break;
-        }
-        if (rc == 0) {
-            continue; 
-        }
-
         std::string line;
         if (!std::getline(std::cin, line)) {
             st.stop.store(true);
