@@ -5,3 +5,5 @@ tcp_server
 tcp_server_pool
 tcp_client_reconnect
 *.md
+client
+server

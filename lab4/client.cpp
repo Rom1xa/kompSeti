@@ -1,4 +1,5 @@
 #include <arpa/inet.h>
+#include <atomic>
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,18 +8,18 @@
 
 #include "protocol.h"
 
-static volatile int running = 1;
+std::atomic<bool> is_connected(false);
 
 static void *recv_thread(void *arg) {
   int sock = *(int *)arg;
   Message msg;
 
-  while (running) {
+  while (is_connected.load()) {
     int n = msg_recv(sock, &msg);
     if (n <= 0) {
-      if (running)
+      if (is_connected.load())
         printf("\n[!] Соединение с сервером разорвано\n");
-      running = 0;
+      is_connected.store(false);
       break;
     }
 
@@ -45,7 +46,7 @@ static void *recv_thread(void *arg) {
 
     case MSG_BYE:
       printf("[SERVER]: соединение закрыто сервером\n");
-      running = 0;
+      is_connected.store(false);
       break;
 
     default:
@@ -137,13 +138,13 @@ int main(int argc, char *argv[]) {
   pthread_detach(tid);
 
   char input[MAX_PAYLOAD + 64];
-  while (running) {
+  while (is_connected.load()) {
     printf("> ");
     fflush(stdout);
 
     if (!fgets(input, sizeof(input), stdin))
       break;
-    if (!running)
+    if (!is_connected.load())
       break;
 
     trim_newline(input);
@@ -152,7 +153,7 @@ int main(int argc, char *argv[]) {
 
     if (strcmp(input, "/quit") == 0) {
       msg_send(sock, MSG_BYE, "bye");
-      running = 0;
+      is_connected.store(false);
       break;
     }
 
