@@ -1,0 +1,30 @@
+{
+  "msg_id": 2,
+  "timestamp": 1778647589,
+  "sender": "testuser",
+  "receiver": "",
+  "type": "MSG_TEXT",
+  "text": "hello world",
+  "delivered": true,
+  "is_offline": false
+}
+{
+  "msg_id": 2,
+  "timestamp": 1778647721,
+  "sender": "testuser",
+  "receiver": "",
+  "type": "MSG_TEXT",
+  "text": "hello world",
+  "delivered": true,
+  "is_offline": false
+}
+{
+  "msg_id": 2,
+  "timestamp": 1778647736,
+  "sender": "testuser",
+  "receiver": "",
+  "type": "MSG_TEXT",
+  "text": "hello there",
+  "delivered": true,
+  "is_offline": false
+}

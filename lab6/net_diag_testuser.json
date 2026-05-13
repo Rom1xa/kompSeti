@@ -1,0 +1,8 @@
+{
+  "nickname": "testuser",
+  "ping_sent": 3,
+  "ping_received": 3,
+  "rtt_avg_ms": 27.68,
+  "jitter_avg_ms": 41.07,
+  "loss_percent": 0.00
+}
